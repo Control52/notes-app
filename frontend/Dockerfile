@@ -1,13 +1,12 @@
-# Этап сборки
+# Build stage
 FROM node:20-alpine AS build
-
 WORKDIR /app
 
 # Копируем файлы зависимостей
 COPY package*.json ./
 
-# Устанавливаем зависимости
-RUN npm ci --only=production
+# Устанавливаем ВСЕ зависимости (включая devDependencies для сборки)
+RUN npm ci
 
 # Копируем исходный код
 COPY . .
@@ -15,16 +14,13 @@ COPY . .
 # Собираем приложение
 RUN npm run build
 
-# Этап запуска - используем Nginx для раздачи статики
+# Production stage
 FROM nginx:alpine
 
-# Копируем собранное приложение
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Копируем кастомную конфигурацию Nginx (если нужна)
-# COPY nginx.conf /etc/nginx/nginx.conf
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/
 
-# Открываем порт
-EXPOSE 80
-
+EXPOSE 5173
 CMD ["nginx", "-g", "daemon off;"]
