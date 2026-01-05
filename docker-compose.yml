@@ -22,7 +22,7 @@ services:
 
   backend:
     build:
-      context: ./backend # путь к папке с Dockerfile бэкенда
+      context: ./backend
       dockerfile: Dockerfile
     container_name: backend_app
     environment:
@@ -41,11 +41,11 @@ services:
 
   frontend:
     build:
-      context: ./frontend # путь к папке с Dockerfile фронтенда
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend_app
     ports:
-      - "80:80"
+      - "5173:5173"
     depends_on:
       - backend
     networks:
