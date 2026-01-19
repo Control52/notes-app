@@ -1,6 +1,5 @@
 package ru.dvfu.imct.backend.service;
 
-import org.springframework.boot.jdbc.autoconfigure.ApplicationDataSourceScriptDatabaseInitializer;
 import org.springframework.stereotype.Service;
 import ru.dvfu.imct.backend.model.dto.NoteCreateDTO;
 import ru.dvfu.imct.backend.exception.NotFoundException;
@@ -19,8 +18,7 @@ public class NoteService {
     private final NoteRepository noteRepository;
     private final TagRepository tagRepository;
 
-    public NoteService(NoteRepository noteRepository, TagRepository tagRepository,
-            ApplicationDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer) {
+    public NoteService(NoteRepository noteRepository, TagRepository tagRepository) {
         this.noteRepository = noteRepository;
         this.tagRepository = tagRepository;
     }
@@ -31,7 +29,7 @@ public class NoteService {
 
     public Note getNoteById(Long id) {
         return noteRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Заметка с id=" + id + " не найдена"));
+                .orElseThrow(() -> new NotFoundException("Заметка с id" + id + " не найдена"));
     }
 
     public Note createNote(NoteCreateDTO dto) {
@@ -62,7 +60,7 @@ public class NoteService {
 
     public Note updateNote(Long id, NoteCreateDTO dto) {
         Note existingNote = noteRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Заметка с id=" + id + " не найдена"));
+                .orElseThrow(() -> new NotFoundException("Заметка с id" + id + " не найдена"));
         existingNote.setTitle(dto.getTitle());
         existingNote.setContent(dto.getContent());
         existingNote.setUpdateAt(LocalDateTime.now());
@@ -73,10 +71,9 @@ public class NoteService {
         return noteRepository.save(existingNote);
     }
 
-
     public void deleteNote(Long id) {
         if (!noteRepository.existsById(id)) {
-            throw new NotFoundException("Заметка с id=" + id + " не найдена");
+            throw new NotFoundException("Заметка с id" + id + " не найдена");
         }
         noteRepository.deleteById(id);
     }

@@ -9,8 +9,6 @@ public class TagDTO {
     private Long id;
     @Schema(description = "Название тега")
     private String title;
-    @Schema(description = "ID пользователя")
-    private Long userId;
 
     public TagDTO() {
     }
@@ -31,11 +29,4 @@ public class TagDTO {
         this.title = title;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 }

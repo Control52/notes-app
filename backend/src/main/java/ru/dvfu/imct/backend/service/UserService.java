@@ -6,6 +6,7 @@ import ru.dvfu.imct.backend.model.entity.User;
 import ru.dvfu.imct.backend.repository.UserRepository;
 import ru.dvfu.imct.backend.exception.NotFoundException;
 import ru.dvfu.imct.backend.exception.AlreadyExistsException;
+import ru.dvfu.imct.backend.exception.WrongPasswordException;
 
 @Service
 public class UserService {
@@ -30,7 +31,7 @@ public class UserService {
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
         if (!user.getPassword().equals(password)) {
-            throw new NotFoundException("Неверный пароль");
+            throw new WrongPasswordException("Неверный пароль");
         }
         return user;
     }

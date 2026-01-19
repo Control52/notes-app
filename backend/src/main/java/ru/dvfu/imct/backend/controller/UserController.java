@@ -1,16 +1,14 @@
 package ru.dvfu.imct.backend.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import ru.dvfu.imct.backend.controller.api.UserControllerApi;
 import ru.dvfu.imct.backend.model.dto.UserRegistrationDTO;
+import ru.dvfu.imct.backend.model.dto.UserLoginDTO;
 import ru.dvfu.imct.backend.mapper.UserMapper;
 import ru.dvfu.imct.backend.service.UserService;
 
 @RestController
-@RequestMapping("/api/users")
-@Tag(name = "Пользователи", description = "Взаимодействие с пользователями")
-public class UserController {
+public class UserController implements UserControllerApi {
 
     private final UserService userService;
 
@@ -18,15 +16,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Operation(summary = "регистрация пользователя")
-    @PostMapping("/register")
-    public UserRegistrationDTO register(@RequestBody UserRegistrationDTO userRegistrationDto) {
+    @Override
+    public UserRegistrationDTO register(UserRegistrationDTO userRegistrationDto) {
         return UserMapper.toDTO(userService.register(userRegistrationDto));
     }
 
-    @Operation(summary = "логин пользователя")
-    @GetMapping("/login")
-    public UserRegistrationDTO login(@RequestParam String login, @RequestParam String password) {
-        return UserMapper.toDTO(userService.login(login, password));
+    @Override
+    public UserRegistrationDTO login(UserLoginDTO loginDto) {
+        return UserMapper.toDTO(userService.login(loginDto.getLogin(), loginDto.getPassword()));
     }
 }

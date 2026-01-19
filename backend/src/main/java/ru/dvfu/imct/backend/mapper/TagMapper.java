@@ -10,7 +10,6 @@ public class TagMapper {
         TagDTO dto = new TagDTO();
         dto.setId(tag.getId());
         dto.setTitle(tag.getTitle());
-        dto.setUserId(tag.getUser() != null ? tag.getUser().getId() : null);
         return dto;
     }
 }

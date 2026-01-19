@@ -34,7 +34,7 @@ public class TagService {
 
     public void deleteTag(Long tagId) {
         if (!tagRepository.existsById(tagId)) {
-            throw new NotFoundException("Тег с id=" + tagId + " не найден");
+            throw new NotFoundException("Тег с id" + tagId + " не найден");
         }
         tagRepository.deleteById(tagId);
     }
